@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.yeoback_backend.member.MemberMapper">
+
+    <!-- enum 컬럼은 ::text 로 바꿔서 String 으로 받는다 -->
+    <sql id="memberAuthColumns">
+        m.id,
+        m.member_email,
+        m.member_phone,
+        m.member_password,
+        m.member_name,
+        m.member_alias,
+        m.member_status::text as member_status,
+        a.member_role::text   as member_role,
+        a.member_type::text   as member_type
+    </sql>
+
+    <select id="findByEmail" resultType="com.app.yeoback_backend.member.MemberAuth">
+        select <include refid="memberAuthColumns"/>
+        from tbl_member m
+        left join tbl_auth a on a.id = m.id
+        where lower(m.member_email) = #{email}
+    </select>
+
+    <select id="findByPhone" resultType="com.app.yeoback_backend.member.MemberAuth">
+        select <include refid="memberAuthColumns"/>
+        from tbl_member m
+        left join tbl_auth a on a.id = m.id
+        where m.member_phone = #{phone}
+    </select>
+
+    <select id="findById" resultType="com.app.yeoback_backend.member.MemberAuth">
+        select <include refid="memberAuthColumns"/>
+        from tbl_member m
+        left join tbl_auth a on a.id = m.id
+        where m.id = #{id}
+    </select>
+</mapper>
