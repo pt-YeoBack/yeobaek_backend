@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.yeoback_backend.mapper.MemberMapper">
+
+    <!-- 회원가입 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_member (member_email,
+                                member_phone,
+                                member_password,
+                                member_name,
+                                member_alias,
+                                member_bio,
+                                member_status)
+        values (#{memberEmail}, #{memberPhone}, #{memberPassword}, #{memberName}, #{memberAlias}, #{memberBio}, #{memberStatus})
+    </insert>
+
+    <select id="selectById">
+        select id, member_email, member_phone,
+               member_password, member_name,
+               member_alias, member_bio,
+               member_status,
+               created_datetime,
+               updated_datetime
+        from tbl_member
+        where id = #{id}
+    </select>
+
+    <update id="delete">
+        update tbl_member
+        set member_status = 'withdrawn'
+        where id = #{id}
+    </update>
+</mapper>
